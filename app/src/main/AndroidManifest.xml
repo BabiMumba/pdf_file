@@ -15,16 +15,19 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.MonpremierApp">
-        <activity android:name=".LivrepdfActivity">
-
-        </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".LivrepdfActivity"
+            android:exported="true"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MainActivity">
+
+        </activity>
+
     </application>
 
 </manifest>
