@@ -17,7 +17,6 @@ import java.net.MalformedURLException
 import java.net.URL
 
 class MainActivity : AppCompatActivity() {
-    private var tvFileName: TextView? = null
     private var btnDownload: Button? = null
     private  var btnView:android.widget.Button? = null
 
@@ -29,7 +28,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var valider:Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_main2)
 
         initViews()
         setListeners()
@@ -57,7 +56,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun initViews() {
-        tvFileName = findViewById(R.id.tvUrl)
+        var  tvFileName = findViewById<TextView>(R.id.tvUrl)
         btnDownload = findViewById(R.id.btnDownload)
         btnView = findViewById(R.id.btnView)
 
@@ -69,7 +68,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         fileName = url!!.path
-        fileName = fileName.substring(fileName.lastIndexOf('/') + 1)
         tvFileName.setText(fileName)
 
     }

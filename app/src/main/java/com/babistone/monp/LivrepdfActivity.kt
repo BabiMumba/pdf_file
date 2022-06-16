@@ -20,6 +20,7 @@ class LivrepdfActivity : AppCompatActivity() {
     private val filepath = "http://africau.edu/images/default/sample.pdf"
     private var url: URL? = null
     private var fileName: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)
