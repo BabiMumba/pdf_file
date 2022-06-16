@@ -48,7 +48,6 @@ public class LivrepdfActivity extends AppCompatActivity {
         tvFileName.setText(fileName);
     }
     private void setListeners() {
-
         btnDownload.setOnClickListener(v -> {
             DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url + ""));
             request.setTitle(fileName);
