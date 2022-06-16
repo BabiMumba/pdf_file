@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.os.Environment.DIRECTORY_DOWNLOADS
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -43,6 +44,7 @@ class LivrepdfActivity : AppCompatActivity() {
     }
 
     private fun setListeners() {
+
         btnDownload!!.setOnClickListener { v: View? ->
             val request = DownloadManager.Request(Uri.parse(url.toString() + ""))
             request.setTitle(fileName)
@@ -50,13 +52,13 @@ class LivrepdfActivity : AppCompatActivity() {
             request.allowScanningByMediaScanner()
             request.setAllowedOverMetered(true)
             request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
+            request.setDestinationInExternalPublicDir(DIRECTORY_DOWNLOADS, fileName)
             val dm = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
             dm.enqueue(request)
         }
         btnView!!.setOnClickListener { v: View? ->
             val file = File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS)
                     .toString() + "/" + fileName
             )
             val uri = FileProvider.getUriForFile(

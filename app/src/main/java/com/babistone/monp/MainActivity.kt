@@ -17,6 +17,7 @@ import java.net.MalformedURLException
 import java.net.URL
 
 class MainActivity : AppCompatActivity() {
+
     private var btnDownload: Button? = null
     private  var btnView:android.widget.Button? = null
 
