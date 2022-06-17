@@ -9,6 +9,7 @@ import android.os.Environment
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import java.net.MalformedURLException
 import java.net.URL
@@ -45,6 +46,14 @@ class LivrepdfActivity : AppCompatActivity() {
 
         btnDownload!!.setOnClickListener { v: View? ->
 
+            try {
+                if (Permission.readAndWriteExternalStorage(this)){
+                    downloadFile()
+                }
+            }catch (e:Exception){
+                Toast.makeText(this, "${e.toString()}", Toast.LENGTH_SHORT).show()
+            }
+           
 
         }
     }
