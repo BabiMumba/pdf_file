@@ -1,7 +1,10 @@
 package com.babistone.monp
 
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.app.DownloadManager
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -54,29 +57,8 @@ class LivrepdfActivity : AppCompatActivity() {
             }
 
         }
-        btnView!!.setOnClickListener { v: View? ->
-            val file = File(
-                    Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS)
-                            .toString() + "/" + fileName
-            )
-            val uri = FileProvider.getUriForFile(
-                    this@LivrepdfActivity,
-                    "com.example.firstproject" + ".provider",
-                    file
-            )
-            val i = Intent(Intent.ACTION_VIEW)
-            i.setDataAndType(uri, "application/pdf")
-            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_GRANT_READ_URI_PERMISSION
-            startActivity(i)
-        }
     }
     private fun downloadFile() {
-
-        /*
-            if(PermissionCheck.readAndWriteExternalStorage(context)){
-    //Your read write code.
-}
-             */
 
         val downloadUrl = "http://africau.edu/images/default/sample.pdf"
         val downloadRequest = DownloadManager.Request(Uri.parse(downloadUrl))
@@ -89,6 +71,13 @@ class LivrepdfActivity : AppCompatActivity() {
         val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
         downloadManager.enqueue(downloadRequest)
 
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if(requestCode  == PackageManager.PERMISSION_GRANTED){
+            downloadFile()
+        }
     }
 
 }
