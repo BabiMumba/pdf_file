@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.MonpremierApp">
-        <activity android:name=".LivrepdfActivity"
+        <activity android:name=".MainActivity2"
             android:exported="true"
             >
             <intent-filter>

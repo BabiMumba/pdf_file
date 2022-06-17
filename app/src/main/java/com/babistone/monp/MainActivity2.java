@@ -15,7 +15,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity2 extends AppCompatActivity {
 
     private TextView tvFileName;
     private Button btnDownload, btnView;
@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main2);
 
         initViews();
         setListeners();
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
     btnView.setOnClickListener(v -> {
         File file=new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+"/"+fileName);
-        Uri uri= FileProvider.getUriForFile(MainActivity.this,"com.example.firstproject"+".provider",file);
+        Uri uri= FileProvider.getUriForFile(MainActivity2.this,"com.example.firstproject"+".provider",file);
         Intent i=new Intent(Intent.ACTION_VIEW);
         i.setDataAndType(uri,"application/pdf");
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_GRANT_READ_URI_PERMISSION);
