@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.activity_main2.*
 import java.net.MalformedURLException
 import java.net.URL
 
@@ -19,25 +20,20 @@ class LivrepdfActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)
-        initViews()
-        setListeners()
-    }
 
-    private fun initViews() {
+        telc.setOnClickListener {
+            try {
+                if (Permission.readAndWriteExternalStorage(this)){
+                    downloadFile()
+                }
+            }catch (e:Exception){
+                Toast.makeText(this, "${e.toString()}", Toast.LENGTH_SHORT).show()
 
-       var  tvFileName = findViewById<TextView>(R.id.tvUrl)
-        btnDownload = findViewById(R.id.btnDownload)
-        btnView = findViewById(R.id.btnView)
-        try {
-            url = URL(filepath)
-        } catch (e: MalformedURLException) {
-            e.printStackTrace()
+            }
         }
-        fileName = url!!.path
-        tvFileName.setText(fileName)
     }
 
-    private fun setListeners() {
+   /* private fun setListeners() {
 
         btnDownload!!.setOnClickListener { v: View? ->
 
@@ -51,7 +47,8 @@ class LivrepdfActivity : AppCompatActivity() {
            
 
         }
-    }
+    }*/
+
     private fun downloadFile() {
 
         val downloadUrl = "http://africau.edu/images/default/sample.pdf"
