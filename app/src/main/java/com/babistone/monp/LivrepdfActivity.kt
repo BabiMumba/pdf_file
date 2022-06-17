@@ -46,26 +46,23 @@ class LivrepdfActivity : AppCompatActivity() {
     private fun setListeners() {
 
         btnDownload!!.setOnClickListener { v: View? ->
-            val request = DownloadManager.Request(Uri.parse(url.toString() + ""))
-            request.setTitle(fileName)
-            request.setMimeType("applcation/pdf")
-            request.allowScanningByMediaScanner()
-            request.setAllowedOverMetered(true)
-            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-            request.setDestinationInExternalPublicDir(DIRECTORY_DOWNLOADS, fileName)
-            val dm = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
-            dm.enqueue(request)
+            if (PermissionCheck.readAndWriteExternalStorage(this)) {
+
+            }else{
+
+                downloadFile()
+            }
 
         }
         btnView!!.setOnClickListener { v: View? ->
             val file = File(
-                Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS)
-                    .toString() + "/" + fileName
+                    Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS)
+                            .toString() + "/" + fileName
             )
             val uri = FileProvider.getUriForFile(
-                this@LivrepdfActivity,
-                "com.example.firstproject" + ".provider",
-                file
+                    this@LivrepdfActivity,
+                    "com.example.firstproject" + ".provider",
+                    file
             )
             val i = Intent(Intent.ACTION_VIEW)
             i.setDataAndType(uri, "application/pdf")
@@ -73,4 +70,25 @@ class LivrepdfActivity : AppCompatActivity() {
             startActivity(i)
         }
     }
+    private fun downloadFile() {
+
+        /*
+            if(PermissionCheck.readAndWriteExternalStorage(context)){
+    //Your read write code.
+}
+             */
+
+        val downloadUrl = "http://africau.edu/images/default/sample.pdf"
+        val downloadRequest = DownloadManager.Request(Uri.parse(downloadUrl))
+        downloadRequest.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI)
+        downloadRequest.setTitle("Download")
+        downloadRequest.setDescription("Download Simple File..")
+        downloadRequest.allowScanningByMediaScanner()
+        downloadRequest.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION)
+        downloadRequest.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "" + System.currentTimeMillis())
+        val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
+        downloadManager.enqueue(downloadRequest)
+
+    }
+
 }

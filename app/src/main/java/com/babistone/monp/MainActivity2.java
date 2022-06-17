@@ -62,12 +62,8 @@ public class MainActivity2 extends AppCompatActivity {
         fileName = fileName.substring(fileName.lastIndexOf('/') + 1);
         tvFileName.setText(fileName);
     }
-
     private void setListeners() {
-
         btnDownload.setOnClickListener(v -> {
-
-
             /*
             if(PermissionCheck.readAndWriteExternalStorage(context)){
     //Your read write code.
@@ -75,52 +71,22 @@ public class MainActivity2 extends AppCompatActivity {
              */
             if (PermissionCheck.readAndWriteExternalStorage(this)){
 
-                String myurl = "http://africau.edu/images/default/sample.pdf";
-                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(myurl));
-                request.setTitle("babtest");
-                request.setDescription("telechargement");
-                request.allowScanningByMediaScanner();
-                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                String filename = URLUtil.guessFileName(myurl, null, MimeTypeMap.getFileExtensionFromUrl(myurl));
-                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename);
-                DownloadManager manager = (DownloadManager) c.getSystemService(Context.DOWNLOAD_SERVICE);
-               
             }
-
         });
 
         telch.setOnClickListener(v -> {
-            String myurl = "http://africau.edu/images/default/sample.pdf";
-            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(myurl));
-            request.setTitle("babtest");
-            request.setDescription("telechargement");
-            request.allowScanningByMediaScanner();
-            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-            String filename = URLUtil.guessFileName(myurl, null, MimeTypeMap.getFileExtensionFromUrl(myurl));
-            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename);
-            DownloadManager manager = (DownloadManager) c.getSystemService(Context.DOWNLOAD_SERVICE);
-
 
         });
 
-
-
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
             //you have the permission now.
 
-            String myurl = "http://africau.edu/images/default/sample.pdf";
-            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(myurl));
-            request.setTitle("babtest");
-            request.setDescription("telechargement");
-            request.allowScanningByMediaScanner();
-            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-            String filename = URLUtil.guessFileName(myurl, null, MimeTypeMap.getFileExtensionFromUrl(myurl));
-            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename);
-            DownloadManager manager = (DownloadManager) c.getSystemService(Context.DOWNLOAD_SERVICE);
+
         }
     }
 
