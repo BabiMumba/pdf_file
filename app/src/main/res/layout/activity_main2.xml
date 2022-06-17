@@ -4,24 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:padding="12dp"
+    android:gravity="center"
     tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/tvUrl"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:textColor="@color/black"
         android:textSize="16dp"
-        tools:text="Filename.pdf" />
+        tools:text="babi.pdf" />
 
     <Button
         android:id="@+id/btnDownload"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:text="Download"
+        android:text="permission"
         android:textAllCaps="false" />
 
     <Button
@@ -30,6 +30,13 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:text="View pdf"
+        android:textAllCaps="false" />
+    <Button
+        android:id="@+id/telc"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:text="download"
         android:textAllCaps="false" />
 
 </LinearLayout>

@@ -64,14 +64,14 @@ public class MainActivity2 extends AppCompatActivity {
         btnDownload.setOnClickListener(v -> {
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
                 if(ContextCompat.checkSelfPermission(getApplicationContext(),Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-
-
                     ActivityCompat.requestPermissions(MainActivity2.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},100);
                 }
+
             } else {
                 try {
                     DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url + ""));
                     request.setTitle(fileName);
+                    request.setDescription("telechargement...");
                     request.setMimeType("applcation/pdf");
                     request.allowScanningByMediaScanner();
                     request.setAllowedOverMetered(true);
