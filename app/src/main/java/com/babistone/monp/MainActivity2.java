@@ -27,7 +27,7 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 public class MainActivity2 extends AppCompatActivity {
 
     private TextView tvFileName;
-    private Button btnDownload, btnView;
+    private Button btnDownload, telch,btnView;
 
     private String filepath = "http://africau.edu/images/default/sample.pdf";
     private URL url = null;
@@ -46,6 +46,7 @@ public class MainActivity2 extends AppCompatActivity {
         tvFileName = findViewById(R.id.tvUrl);
         btnDownload = findViewById(R.id.btnDownload);
         btnView = findViewById(R.id.btnView);
+        telch = findViewById(R.id.telc);
 
 
         try {
@@ -62,30 +63,41 @@ public class MainActivity2 extends AppCompatActivity {
     private void setListeners() {
 
         btnDownload.setOnClickListener(v -> {
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                if(ContextCompat.checkSelfPermission(getApplicationContext(),Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-                    ActivityCompat.requestPermissions(MainActivity2.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},100);
-                }
+            if (Build.VERSION.SDK_INT >= 23) {
+                if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        == PackageManager.PERMISSION_GRANTED) {
+                    Log.e("Permission error","You have permission");
+                } else {
 
-            } else {
-                try {
-                    DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url + ""));
-                    request.setTitle(fileName);
-                    request.setDescription("telechargement...");
-                    request.setMimeType("applcation/pdf");
-                    request.allowScanningByMediaScanner();
-                    request.setAllowedOverMetered(true);
-                    request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                    request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
-                    DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-                    dm.enqueue(request);
-                }catch (Exception e ){
-
-                    Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+                    Log.e("Permission error","You have asked for permission");
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                 }
-        }
+            }
+            else { //you dont need to worry about these stuff below api level 23
+                Log.e("Permission error","You already have the permission");
+                Toast.makeText(this, "erreur", Toast.LENGTH_SHORT).show();
+            }
 
         });
+
+        telch.setOnClickListener(v -> {
+
+            try {
+                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url + ""));
+                request.setTitle(fileName);
+                request.setDescription("telechargement...");
+                request.setMimeType("applcation/pdf");
+                request.allowScanningByMediaScanner();
+                request.setAllowedOverMetered(true);
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
+                DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+                dm.enqueue(request);
+            }catch (Exception e ){
+                Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
     btnView.setOnClickListener(v -> {
         File file=new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+"/"+fileName);
