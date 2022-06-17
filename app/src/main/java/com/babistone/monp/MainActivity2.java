@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -53,15 +54,24 @@ public class MainActivity2 extends AppCompatActivity {
     private void setListeners() {
 
         btnDownload.setOnClickListener(v -> {
-            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url + ""));
-            request.setTitle(fileName);
-            request.setMimeType("applcation/pdf");
-            request.allowScanningByMediaScanner();
-            request.setAllowedOverMetered(true);
-            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
-            DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-            dm.enqueue(request);
+
+
+
+            try {
+                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url + ""));
+                request.setTitle(fileName);
+                request.setMimeType("applcation/pdf");
+                request.allowScanningByMediaScanner();
+                request.setAllowedOverMetered(true);
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
+                DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+                dm.enqueue(request);
+            }catch (Exception e ){
+
+                Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+            }
+
         });
 
     btnView.setOnClickListener(v -> {
