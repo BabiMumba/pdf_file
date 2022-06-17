@@ -1,20 +1,15 @@
 package com.babistone.monp
 
-import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.app.DownloadManager
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.os.Environment.DIRECTORY_DOWNLOADS
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.FileProvider
-import java.io.File
 import java.net.MalformedURLException
 import java.net.URL
 
@@ -49,12 +44,7 @@ class LivrepdfActivity : AppCompatActivity() {
     private fun setListeners() {
 
         btnDownload!!.setOnClickListener { v: View? ->
-            if (PermissionCheck.readAndWriteExternalStorage(this)) {
 
-            }else{
-
-                downloadFile()
-            }
 
         }
     }
@@ -75,9 +65,10 @@ class LivrepdfActivity : AppCompatActivity() {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if(requestCode  == PackageManager.PERMISSION_GRANTED){
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
             downloadFile()
         }
     }
+
 
 }
