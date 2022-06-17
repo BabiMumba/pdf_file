@@ -54,8 +54,8 @@ class LivrepdfActivity : AppCompatActivity() {
         val downloadUrl = "http://africau.edu/images/default/sample.pdf"
         val downloadRequest = DownloadManager.Request(Uri.parse(downloadUrl))
         downloadRequest.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI)
-        downloadRequest.setTitle("Download")
-        downloadRequest.setDescription("Download Simple File..")
+        downloadRequest.setTitle("livre")
+        downloadRequest.setDescription("Telechargement...")
         downloadRequest.allowScanningByMediaScanner()
         downloadRequest.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION)
         downloadRequest.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "" + System.currentTimeMillis())
