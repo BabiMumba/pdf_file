@@ -15,11 +15,6 @@ import java.net.MalformedURLException
 import java.net.URL
 
 class LivrepdfActivity : AppCompatActivity() {
-    private var btnDownload: Button? = null
-    private var btnView: Button? = null
-    private val filepath = "http://africau.edu/images/default/sample.pdf"
-    private var url: URL? = null
-    private var fileName: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,6 +68,7 @@ class LivrepdfActivity : AppCompatActivity() {
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
             downloadFile()
