@@ -1,13 +1,19 @@
 package com.babistone.monp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
+import android.Manifest;
 import android.app.DownloadManager;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,6 +21,8 @@ import android.widget.Toast;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 
 public class MainActivity2 extends AppCompatActivity {
 
@@ -54,23 +62,28 @@ public class MainActivity2 extends AppCompatActivity {
     private void setListeners() {
 
         btnDownload.setOnClickListener(v -> {
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                if(ContextCompat.checkSelfPermission(getApplicationContext(),Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
 
 
+                    ActivityCompat.requestPermissions(MainActivity2.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},100);
+                }
+            } else {
+                try {
+                    DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url + ""));
+                    request.setTitle(fileName);
+                    request.setMimeType("applcation/pdf");
+                    request.allowScanningByMediaScanner();
+                    request.setAllowedOverMetered(true);
+                    request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                    request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
+                    DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+                    dm.enqueue(request);
+                }catch (Exception e ){
 
-            try {
-                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url + ""));
-                request.setTitle(fileName);
-                request.setMimeType("applcation/pdf");
-                request.allowScanningByMediaScanner();
-                request.setAllowedOverMetered(true);
-                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
-                DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-                dm.enqueue(request);
-            }catch (Exception e ){
-
-                Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
-            }
+                    Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+                }
+        }
 
         });
 
