@@ -7,6 +7,7 @@ import androidx.core.content.FileProvider;
 
 import android.Manifest;
 import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -14,6 +15,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.webkit.MimeTypeMap;
+import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,7 +28,7 @@ import java.net.URL;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 
 public class MainActivity2 extends AppCompatActivity {
-
+    final Context c = this;
     private TextView tvFileName;
     private Button btnDownload, telch,btnView;
 
@@ -63,51 +66,62 @@ public class MainActivity2 extends AppCompatActivity {
     private void setListeners() {
 
         btnDownload.setOnClickListener(v -> {
-            if (Build.VERSION.SDK_INT >= 23) {
-                if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        == PackageManager.PERMISSION_GRANTED) {
-                    Log.e("Permission error","You have permission");
-                } else {
 
-                    Log.e("Permission error","You have asked for permission");
-                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-                }
-            }
-            else { //you dont need to worry about these stuff below api level 23
-                Log.e("Permission error","You already have the permission");
-                Toast.makeText(this, "erreur", Toast.LENGTH_SHORT).show();
+
+            /*
+            if(PermissionCheck.readAndWriteExternalStorage(context)){
+    //Your read write code.
+}
+             */
+            if (PermissionCheck.readAndWriteExternalStorage(this)){
+
+                String myurl = "http://africau.edu/images/default/sample.pdf";
+                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(myurl));
+                request.setTitle("babtest");
+                request.setDescription("telechargement");
+                request.allowScanningByMediaScanner();
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                String filename = URLUtil.guessFileName(myurl, null, MimeTypeMap.getFileExtensionFromUrl(myurl));
+                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename);
+                DownloadManager manager = (DownloadManager) c.getSystemService(Context.DOWNLOAD_SERVICE);
+               
             }
 
         });
 
         telch.setOnClickListener(v -> {
+            String myurl = "http://africau.edu/images/default/sample.pdf";
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(myurl));
+            request.setTitle("babtest");
+            request.setDescription("telechargement");
+            request.allowScanningByMediaScanner();
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            String filename = URLUtil.guessFileName(myurl, null, MimeTypeMap.getFileExtensionFromUrl(myurl));
+            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename);
+            DownloadManager manager = (DownloadManager) c.getSystemService(Context.DOWNLOAD_SERVICE);
 
-            try {
-                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url + ""));
-                request.setTitle(fileName);
-                request.setDescription("telechargement...");
-                request.setMimeType("applcation/pdf");
-                request.allowScanningByMediaScanner();
-                request.setAllowedOverMetered(true);
-                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
-                DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-                dm.enqueue(request);
-            }catch (Exception e ){
-                Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
-            }
+
         });
 
 
-    btnView.setOnClickListener(v -> {
-        File file=new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+"/"+fileName);
-        Uri uri= FileProvider.getUriForFile(MainActivity2.this,"com.example.firstproject"+".provider",file);
-        Intent i=new Intent(Intent.ACTION_VIEW);
-        i.setDataAndType(uri,"application/pdf");
-        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        startActivity(i);
 
-    });
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
+            //you have the permission now.
+
+            String myurl = "http://africau.edu/images/default/sample.pdf";
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(myurl));
+            request.setTitle("babtest");
+            request.setDescription("telechargement");
+            request.allowScanningByMediaScanner();
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            String filename = URLUtil.guessFileName(myurl, null, MimeTypeMap.getFileExtensionFromUrl(myurl));
+            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename);
+            DownloadManager manager = (DownloadManager) c.getSystemService(Context.DOWNLOAD_SERVICE);
+        }
     }
 
 }
