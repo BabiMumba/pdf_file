@@ -55,6 +55,7 @@ class LivrepdfActivity : AppCompatActivity() {
             request.setDestinationInExternalPublicDir(DIRECTORY_DOWNLOADS, fileName)
             val dm = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
             dm.enqueue(request)
+
         }
         btnView!!.setOnClickListener { v: View? ->
             val file = File(
