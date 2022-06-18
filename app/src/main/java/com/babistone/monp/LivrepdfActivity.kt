@@ -1,14 +1,10 @@
 package com.babistone.monp
 
-import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.app.DownloadManager
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.view.View
-import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main2.*
@@ -26,7 +22,7 @@ class LivrepdfActivity : AppCompatActivity() {
                 if (Permission.readAndWriteExternalStorage(this)){
                     downloadFile()
                 }
-            }catch (e:Exception){
+            }catch (e: Exception){
                 Toast.makeText(this, "${e.toString()}", Toast.LENGTH_SHORT).show()
 
             }
@@ -34,10 +30,22 @@ class LivrepdfActivity : AppCompatActivity() {
     }
 
 
-    private fun downloadFile() {
+    private val filepath = "http://africau.edu/images/default/sample.pdf"
+    private var url: URL? = null
 
-        val downloadUrl = "http://africau.edu/images/default/sample.pdf"
-        val downloadRequest = DownloadManager.Request(Uri.parse(downloadUrl))
+    private fun downloadFile() {
+        try {
+            url = URL(filepath)
+        } catch (e: MalformedURLException) {
+            e.printStackTrace()
+        }
+        val fileName: String
+        fileName = url!!.path
+
+
+
+
+        val downloadRequest = DownloadManager.Request(Uri.parse(url.toString()))
         downloadRequest.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI)
         downloadRequest.setTitle("livre")
         downloadRequest.setMimeType("applcation/pdf")
@@ -45,7 +53,7 @@ class LivrepdfActivity : AppCompatActivity() {
         downloadRequest.setDescription("Telechargement...")
         downloadRequest.allowScanningByMediaScanner()
         downloadRequest.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION)
-        downloadRequest.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "")
+        downloadRequest.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
         val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
         downloadManager.enqueue(downloadRequest)
 

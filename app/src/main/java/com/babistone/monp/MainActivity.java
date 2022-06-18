@@ -20,8 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvFileName;
     private Button btnDownload, btnView;
 
-    private String filepath = "http://africau.edu/images/default/sample.pdf";
-    private URL url = null;
+
     private String fileName;
 
     @Override
@@ -33,10 +32,14 @@ public class MainActivity extends AppCompatActivity {
         setListeners();
     }
 
+    private String filepath = "http://africau.edu/images/default/sample.pdf";
+    private URL url = null;
+
     private void initViews() {
         tvFileName = findViewById(R.id.tvUrl);
         btnDownload = findViewById(R.id.btnDownload);
         btnView = findViewById(R.id.btnView);
+
 
 
         try {
