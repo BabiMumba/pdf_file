@@ -30,7 +30,7 @@ class LivrepdfActivity : AppCompatActivity() {
     }
 
 
-    private val filepath = "http://africau.edu/images/default/sample.pdf"
+    private val filepath = "https://www.editions-ellipses.fr/PDF/9782340023642_extrait.pdf"
     private var url: URL? = null
 
     private fun downloadFile() {
@@ -41,16 +41,15 @@ class LivrepdfActivity : AppCompatActivity() {
         }
         val fileName: String
         fileName = url!!.path
-
-
-
+        tvUrl.setText(fileName)
 
         val downloadRequest = DownloadManager.Request(Uri.parse(url.toString()))
         downloadRequest.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI)
-        downloadRequest.setTitle("livre")
-        downloadRequest.setMimeType("applcation/pdf")
+        downloadRequest.setTitle(fileName)
+        downloadRequest.setMimeType("application/pdf")
         downloadRequest.setAllowedOverMetered(true)
         downloadRequest.setDescription("Telechargement...")
+        downloadRequest.setVisibleInDownloadsUi(true)
         downloadRequest.allowScanningByMediaScanner()
         downloadRequest.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION)
         downloadRequest.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
