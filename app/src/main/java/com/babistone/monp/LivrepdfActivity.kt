@@ -40,10 +40,12 @@ class LivrepdfActivity : AppCompatActivity() {
         val downloadRequest = DownloadManager.Request(Uri.parse(downloadUrl))
         downloadRequest.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI)
         downloadRequest.setTitle("livre")
+        downloadRequest.setMimeType("applcation/pdf")
+        downloadRequest.setAllowedOverMetered(true)
         downloadRequest.setDescription("Telechargement...")
         downloadRequest.allowScanningByMediaScanner()
         downloadRequest.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION)
-        downloadRequest.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "" + System.currentTimeMillis())
+        downloadRequest.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "")
         val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
         downloadManager.enqueue(downloadRequest)
 
