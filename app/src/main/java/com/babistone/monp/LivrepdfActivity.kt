@@ -8,6 +8,7 @@ import android.os.Environment
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main2.*
+import java.io.File
 import java.net.MalformedURLException
 import java.net.URL
 
@@ -30,7 +31,7 @@ class LivrepdfActivity : AppCompatActivity() {
     }
 
 
-    private val filepath = "https://www.editions-ellipses.fr/PDF/9782340023642_extrait.pdf"
+    private val filepath = "https://www.esisalama.com/assets/upload/horaire/pdf/HORAIRE%20PREPA.pdf"
     private var url: URL? = null
 
     private fun downloadFile() {
@@ -40,22 +41,27 @@ class LivrepdfActivity : AppCompatActivity() {
             e.printStackTrace()
         }
         val fileName: String
-        fileName = url!!.path
-        tvUrl.setText(fileName)
 
+        fileName = url!!.path
+
+        tvUrl.setText(fileName)
+        val direct = File(Environment.DIRECTORY_DOWNLOADS,  "babistone_livre")
+        if (!direct.exists()) {
+            direct.mkdirs()
+        }
         val downloadRequest = DownloadManager.Request(Uri.parse(url.toString()))
-        downloadRequest.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI)
+        downloadRequest.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE or DownloadManager.Request.NETWORK_WIFI)
         downloadRequest.setTitle(fileName)
         downloadRequest.setMimeType("application/pdf")
         downloadRequest.setAllowedOverMetered(true)
         downloadRequest.setDescription("Telechargement...")
         downloadRequest.setVisibleInDownloadsUi(true)
         downloadRequest.allowScanningByMediaScanner()
-        downloadRequest.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION)
-        downloadRequest.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
+        downloadRequest.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
+        downloadRequest.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+        downloadRequest.setDestinationInExternalPublicDir(direct.toString(),"babibook"+System.currentTimeMillis()+".pdf")
         val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
         downloadManager.enqueue(downloadRequest)
-
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

@@ -74,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
         i.setDataAndType(uri,"application/pdf");
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivity(i);
-
     });
     }
 
