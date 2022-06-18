@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.activity_main2.*
 import java.io.File
 import java.net.MalformedURLException
 import java.net.URL
+import java.util.*
 
 class LivrepdfActivity : AppCompatActivity() {
 
@@ -45,10 +46,14 @@ class LivrepdfActivity : AppCompatActivity() {
         fileName = url!!.path
 
         tvUrl.setText(fileName)
-        val direct = File(Environment.DIRECTORY_DOWNLOADS,  "babistone_livre")
+        val direct = File(Environment.DIRECTORY_DOWNLOADS, "babistone_livre")
         if (!direct.exists()) {
+
             direct.mkdirs()
+
         }
+
+
         val downloadRequest = DownloadManager.Request(Uri.parse(url.toString()))
         downloadRequest.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE or DownloadManager.Request.NETWORK_WIFI)
         downloadRequest.setTitle(fileName)
@@ -59,7 +64,7 @@ class LivrepdfActivity : AppCompatActivity() {
         downloadRequest.allowScanningByMediaScanner()
         downloadRequest.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
         downloadRequest.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-        downloadRequest.setDestinationInExternalPublicDir(direct.toString(),"babibook"+System.currentTimeMillis()+".pdf")
+        downloadRequest.setDestinationInExternalPublicDir(direct.toString(), "Livre.pdf")
         val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
         downloadManager.enqueue(downloadRequest)
     }

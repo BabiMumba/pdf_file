@@ -49,7 +49,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         fileName = url.getPath();
+
         fileName = fileName.substring(fileName.lastIndexOf('/') + 1);
+
         tvFileName.setText(fileName);
     }
 
