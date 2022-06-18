@@ -33,21 +33,6 @@ class LivrepdfActivity : AppCompatActivity() {
         }
     }
 
-   /* private fun setListeners() {
-
-        btnDownload!!.setOnClickListener { v: View? ->
-
-            try {
-                if (Permission.readAndWriteExternalStorage(this)){
-                    downloadFile()
-                }
-            }catch (e:Exception){
-                Toast.makeText(this, "${e.toString()}", Toast.LENGTH_SHORT).show()
-            }
-           
-
-        }
-    }*/
 
     private fun downloadFile() {
 
@@ -68,6 +53,7 @@ class LivrepdfActivity : AppCompatActivity() {
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+
             downloadFile()
         }
     }
